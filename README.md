@@ -1,2 +1,17 @@
-# clinica-odontologica-api
-API REST para gerenciamento de clínica odontológica desenvolvida com Java Spring Boot.
+# Clínica Odontológica API
+
+API desenvolvida em Spring Boot para gerenciamento de clínica odontológica.
+
+## Tecnologias
+- Java
+- Spring Boot
+- MySQL
+- JPA/Hibernate
+
+## Funcionalidades
+- Pacientes
+- Dentistas
+- Consultas
+- Exames
+- Pagamentos
+- Salas
