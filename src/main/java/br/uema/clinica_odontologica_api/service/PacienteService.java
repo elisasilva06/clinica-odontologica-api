@@ -1,6 +1,8 @@
 package br.uema.clinica_odontologica_api.service;
 
+import br.uema.clinica_odontologica_api.dto.PacienteDTO;
 import br.uema.clinica_odontologica_api.entity.Paciente;
+import br.uema.clinica_odontologica_api.exception.ResourceNotFoundException;
 import br.uema.clinica_odontologica_api.repository.PacienteRepository;
 import org.springframework.stereotype.Service;
 
@@ -15,26 +17,31 @@ public class PacienteService {
         this.repository = repository;
     }
 
-    // Listar todos os pacientes
-    public List<Paciente> listarTodos() {
-        return repository.findAll();
+    // LISTAR TODOS
+    public List<PacienteDTO> listarTodos() {
+        return repository.findAll()
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 
-    // Buscar paciente por ID
-    public Paciente buscarPorId(Integer id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Paciente não encontrado."));
+    // BUSCAR POR ID
+    public PacienteDTO buscarPorId(Integer id) {
+
+        Paciente paciente = buscarEntidadePorId(id);
+
+        return converterParaDTO(paciente);
     }
 
-    // Salvar paciente
+    // SALVAR
     public Paciente salvar(Paciente paciente) {
         return repository.save(paciente);
     }
 
-    // Atualizar paciente
+    // ATUALIZAR
     public Paciente atualizar(Integer id, Paciente paciente) {
 
-        Paciente existente = buscarPorId(id);
+        Paciente existente = buscarEntidadePorId(id);
 
         existente.setNome(paciente.getNome());
         existente.setCpf(paciente.getCpf());
@@ -47,9 +54,37 @@ public class PacienteService {
         return repository.save(existente);
     }
 
-    // Excluir paciente
+    // EXCLUIR
     public void excluir(Integer id) {
-        Paciente paciente = buscarPorId(id);
+
+        Paciente paciente = buscarEntidadePorId(id);
+
         repository.delete(paciente);
+    }
+
+    // BUSCAR ENTIDADE
+    private Paciente buscarEntidadePorId(Integer id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Paciente não encontrado com ID: " + id
+                        ));
+    }
+
+    // CONVERTER PARA DTO
+    private PacienteDTO converterParaDTO(Paciente paciente) {
+
+        PacienteDTO dto = new PacienteDTO();
+
+        dto.setId(paciente.getId());
+        dto.setNome(paciente.getNome());
+        dto.setCpf(paciente.getCpf());
+        dto.setDataNascimento(paciente.getDataNascimento());
+        dto.setSexo(paciente.getSexo());
+        dto.setTelefone(paciente.getTelefone());
+        dto.setEndereco(paciente.getEndereco());
+        dto.setEmail(paciente.getEmail());
+
+        return dto;
     }
 }

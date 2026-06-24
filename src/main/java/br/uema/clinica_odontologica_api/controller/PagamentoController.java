@@ -1,5 +1,6 @@
 package br.uema.clinica_odontologica_api.controller;
 
+import br.uema.clinica_odontologica_api.dto.PagamentoDTO;
 import br.uema.clinica_odontologica_api.entity.Pagamento;
 import br.uema.clinica_odontologica_api.service.PagamentoService;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,12 @@ public class PagamentoController {
     }
 
     @GetMapping
-    public List<Pagamento> listarTodos() {
+    public List<PagamentoDTO> listarTodos() {
         return service.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Pagamento buscarPorId(@PathVariable Integer id) {
+    public PagamentoDTO buscarPorId(@PathVariable Integer id) {
         return service.buscarPorId(id);
     }
 

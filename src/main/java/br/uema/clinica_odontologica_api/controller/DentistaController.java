@@ -1,5 +1,6 @@
 package br.uema.clinica_odontologica_api.controller;
 
+import br.uema.clinica_odontologica_api.dto.DentistaDTO;
 import br.uema.clinica_odontologica_api.entity.Dentista;
 import br.uema.clinica_odontologica_api.service.DentistaService;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +19,13 @@ public class DentistaController {
 
     // LISTAR TODOS
     @GetMapping
-    public List<Dentista> listarTodos() {
+    public List<DentistaDTO> listarTodos() {
         return service.listarTodos();
     }
 
     // BUSCAR POR ID
     @GetMapping("/{id}")
-    public Dentista buscarPorId(@PathVariable Integer id) {
+    public DentistaDTO buscarPorId(@PathVariable Integer id) {
         return service.buscarPorId(id);
     }
 
