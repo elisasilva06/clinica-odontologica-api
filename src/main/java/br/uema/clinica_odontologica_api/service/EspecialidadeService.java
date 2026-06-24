@@ -1,6 +1,7 @@
 package br.uema.clinica_odontologica_api.service;
 
 import br.uema.clinica_odontologica_api.entity.Especialidade;
+import br.uema.clinica_odontologica_api.exception.ResourceNotFoundException;
 import br.uema.clinica_odontologica_api.repository.EspecialidadeRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,9 @@ public class EspecialidadeService {
     // Buscar especialidade por ID
     public Especialidade buscarPorId(Integer id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Especialidade não encontrada."));
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Especialidade não encontrada com ID: " + id));
     }
 
     // Salvar nova especialidade
@@ -33,7 +36,11 @@ public class EspecialidadeService {
 
     // Atualizar especialidade
     public Especialidade atualizar(Integer id, Especialidade especialidade) {
-        Especialidade existente = buscarPorId(id);
+
+        Especialidade existente = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Especialidade não encontrada com ID: " + id));
 
         existente.setNomeEspecialidade(especialidade.getNomeEspecialidade());
 
@@ -42,7 +49,12 @@ public class EspecialidadeService {
 
     // Excluir especialidade
     public void excluir(Integer id) {
-        Especialidade existente = buscarPorId(id);
+
+        Especialidade existente = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Especialidade não encontrada com ID: " + id));
+
         repository.delete(existente);
     }
 }

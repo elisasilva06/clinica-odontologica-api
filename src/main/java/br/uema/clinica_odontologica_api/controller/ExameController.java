@@ -1,5 +1,6 @@
 package br.uema.clinica_odontologica_api.controller;
 
+import br.uema.clinica_odontologica_api.dto.ExameDTO;
 import br.uema.clinica_odontologica_api.entity.Exame;
 import br.uema.clinica_odontologica_api.service.ExameService;
 import org.springframework.web.bind.annotation.*;
@@ -17,12 +18,12 @@ public class ExameController {
     }
 
     @GetMapping
-    public List<Exame> listarTodos() {
+    public List<ExameDTO> listarTodos() {
         return service.listarTodos();
     }
 
     @GetMapping("/{id}")
-    public Exame buscarPorId(@PathVariable Integer id) {
+    public ExameDTO buscarPorId(@PathVariable Integer id) {
         return service.buscarPorId(id);
     }
 

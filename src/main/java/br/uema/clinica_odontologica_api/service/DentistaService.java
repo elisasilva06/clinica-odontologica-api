@@ -1,6 +1,8 @@
 package br.uema.clinica_odontologica_api.service;
 
+import br.uema.clinica_odontologica_api.dto.DentistaDTO;
 import br.uema.clinica_odontologica_api.entity.Dentista;
+import br.uema.clinica_odontologica_api.exception.ResourceNotFoundException;
 import br.uema.clinica_odontologica_api.repository.DentistaRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +18,22 @@ public class DentistaService {
     }
 
     // LISTAR TODOS
-    public List<Dentista> listarTodos() {
-        return repository.findAll();
+    public List<DentistaDTO> listarTodos() {
+        return repository.findAll()
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 
     // BUSCAR POR ID
-    public Dentista buscarPorId(Integer id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Dentista não encontrado com ID: " + id));
+    public DentistaDTO buscarPorId(Integer id) {
+
+        Dentista dentista = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Dentista não encontrado com ID: " + id));
+
+        return converterParaDTO(dentista);
     }
 
     // SALVAR
@@ -33,7 +43,11 @@ public class DentistaService {
 
     // ATUALIZAR
     public Dentista atualizar(Integer id, Dentista dadosAtualizados) {
-        Dentista dentista = buscarPorId(id);
+
+        Dentista dentista = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Dentista não encontrado com ID: " + id));
 
         dentista.setNome(dadosAtualizados.getNome());
         dentista.setCpf(dadosAtualizados.getCpf());
@@ -48,7 +62,31 @@ public class DentistaService {
 
     // DELETAR
     public void excluir(Integer id) {
-        Dentista dentista = buscarPorId(id);
+
+        Dentista dentista = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Dentista não encontrado com ID: " + id));
+
         repository.delete(dentista);
+    }
+
+    private DentistaDTO converterParaDTO(Dentista dentista) {
+
+        DentistaDTO dto = new DentistaDTO();
+
+        dto.setId(dentista.getId());
+        dto.setNome(dentista.getNome());
+        dto.setCpf(dentista.getCpf());
+        dto.setCro(dentista.getCro());
+        dto.setTelefone(dentista.getTelefone());
+        dto.setEmail(dentista.getEmail());
+        dto.setSalario(dentista.getSalario());
+
+        dto.setNomeEspecialidade(
+                dentista.getEspecialidade().getNomeEspecialidade()
+        );
+
+        return dto;
     }
 }

@@ -1,6 +1,7 @@
 package br.uema.clinica_odontologica_api.service;
 
 import br.uema.clinica_odontologica_api.entity.SalaAtendimento;
+import br.uema.clinica_odontologica_api.exception.ResourceNotFoundException;
 import br.uema.clinica_odontologica_api.repository.SalaAtendimentoRepository;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,7 @@ public class SalaAtendimentoService {
 
     // BUSCAR POR ID
     public SalaAtendimento buscarPorId(Integer id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Sala não encontrada com ID: " + id));
+        return buscarEntidadePorId(id);
     }
 
     // SALVAR
@@ -33,7 +33,8 @@ public class SalaAtendimentoService {
 
     // ATUALIZAR
     public SalaAtendimento atualizar(Integer id, SalaAtendimento dados) {
-        SalaAtendimento sala = buscarPorId(id);
+
+        SalaAtendimento sala = buscarEntidadePorId(id);
 
         sala.setNumeroSala(dados.getNumeroSala());
         sala.setBloco(dados.getBloco());
@@ -44,7 +45,18 @@ public class SalaAtendimentoService {
 
     // EXCLUIR
     public void excluir(Integer id) {
-        SalaAtendimento sala = buscarPorId(id);
+
+        SalaAtendimento sala = buscarEntidadePorId(id);
+
         repository.delete(sala);
+    }
+
+    // BUSCAR ENTIDADE
+    private SalaAtendimento buscarEntidadePorId(Integer id) {
+        return repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Sala não encontrada com ID: " + id
+                        ));
     }
 }

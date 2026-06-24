@@ -1,6 +1,8 @@
 package br.uema.clinica_odontologica_api.service;
 
+import br.uema.clinica_odontologica_api.dto.ConsultaDTO;
 import br.uema.clinica_odontologica_api.entity.Consulta;
+import br.uema.clinica_odontologica_api.exception.ResourceNotFoundException;
 import br.uema.clinica_odontologica_api.repository.ConsultaRepository;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +18,22 @@ public class ConsultaService {
     }
 
     // LISTAR TODAS
-    public List<Consulta> listarTodas() {
-        return repository.findAll();
+    public List<ConsultaDTO> listarTodas() {
+        return repository.findAll()
+                .stream()
+                .map(this::converterParaDTO)
+                .toList();
     }
 
     // BUSCAR POR ID
-    public Consulta buscarPorId(Integer id) {
-        return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Consulta não encontrada: " + id));
+    public ConsultaDTO buscarPorId(Integer id) {
+
+        Consulta consulta = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Consulta não encontrada com ID: " + id));
+
+        return converterParaDTO(consulta);
     }
 
     // SALVAR
@@ -33,7 +43,11 @@ public class ConsultaService {
 
     // ATUALIZAR
     public Consulta atualizar(Integer id, Consulta dados) {
-        Consulta consulta = buscarPorId(id);
+
+        Consulta consulta = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Consulta não encontrada com ID: " + id));
 
         consulta.setDataConsulta(dados.getDataConsulta());
         consulta.setHoraConsulta(dados.getHoraConsulta());
@@ -48,7 +62,37 @@ public class ConsultaService {
 
     // EXCLUIR
     public void excluir(Integer id) {
-        Consulta consulta = buscarPorId(id);
+
+        Consulta consulta = repository.findById(id)
+                .orElseThrow(() ->
+                        new ResourceNotFoundException(
+                                "Consulta não encontrada com ID: " + id));
+
         repository.delete(consulta);
+    }
+
+    private ConsultaDTO converterParaDTO(Consulta consulta) {
+
+        ConsultaDTO dto = new ConsultaDTO();
+
+        dto.setId(consulta.getId());
+        dto.setDataConsulta(consulta.getDataConsulta());
+        dto.setHoraConsulta(consulta.getHoraConsulta());
+        dto.setStatusConsulta(consulta.getStatusConsulta());
+        dto.setObservacoes(consulta.getObservacoes());
+
+        dto.setNomePaciente(
+                consulta.getPaciente().getNome()
+        );
+
+        dto.setNomeDentista(
+                consulta.getDentista().getNome()
+        );
+
+        dto.setNumeroSala(
+                consulta.getSala().getNumeroSala()
+        );
+
+        return dto;
     }
 }
