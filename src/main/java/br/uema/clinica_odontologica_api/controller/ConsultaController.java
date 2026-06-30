@@ -59,4 +59,12 @@ public class ConsultaController {
                 service.historicoConsultas()
         );
     }
+
+    //ENDPOIT DA ARRECADAÇÃO POR DENTISTA
+    @GetMapping("/relatorios/arrecadacao")
+    public ResponseEntity<List<Object[]>> arrecadaoPorDentista(){
+        return ResponseEntity.ok(
+                service.arrecadacaoPorDentista()
+        );
+    }
 }

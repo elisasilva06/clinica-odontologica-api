@@ -23,4 +23,14 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
         ORDER BY c.data_consulta DESC
     """, nativeQuery = true)
     List<Object[]> historicoConsultas();
+
+    @Query(value = """
+    SELECT d.nome,
+           SUM(p.valor) AS total_arrecadado
+    FROM PAGAMENTO p
+    JOIN CONSULTA c ON p.id_consulta = c.id_consulta
+    JOIN DENTISTA d ON c.id_dentista = d.id_dentista
+    GROUP BY d.nome
+    """, nativeQuery = true)
+    List<Object[]> arrecadacaoPorDentista();
 }
