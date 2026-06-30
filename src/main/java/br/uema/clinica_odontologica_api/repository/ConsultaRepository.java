@@ -60,6 +60,27 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
     """, nativeQuery = true)
     List<Object[]> pacientesSemConsulta();
 
+    //ranking por especialidade (primeira avaçada)
+    @Query(value = """
+    SELECT *
+    FROM (
+        SELECT 
+            e.nome_especialidade,
+            d.nome AS dentista,
+            COUNT(c.id_consulta) AS total_consultas,
+            RANK() OVER (
+                PARTITION BY e.id_especialidade
+                ORDER BY COUNT(c.id_consulta) DESC
+            ) AS ranking
+        FROM CONSULTA c
+        JOIN DENTISTA d ON c.id_dentista = d.id_dentista
+        JOIN ESPECIALIDADE e ON d.id_especialidade = e.id_especialidade
+        GROUP BY e.id_especialidade, d.id_dentista
+    ) t
+    WHERE ranking <= 3
+    """, nativeQuery = true)
+    List<Object[]> top3DentistasPorEspecialidade();
+
 
 
 

@@ -117,4 +117,8 @@ public class ConsultaService {
         return repository.pacientesSemConsulta();
     }
 
+    public List<Object[]> top3DentistasPorEspecialidade(){
+        return repository.top3DentistasPorEspecialidade();
+    }
+
 }

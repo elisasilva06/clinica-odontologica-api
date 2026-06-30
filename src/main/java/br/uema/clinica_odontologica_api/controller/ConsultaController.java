@@ -84,4 +84,12 @@ public class ConsultaController {
                 service.pacientesSemConsulta()
         );
     }
+
+    //ENDPOINT DO RANKING DOS DENTISTAS POR ESPECIALIDADE
+    @GetMapping("/relatorios/top-por-especialidade")
+    public ResponseEntity<List<Object[]>> top3DentistasPorEspecialidade(){
+        return ResponseEntity.ok(
+                service.top3DentistasPorEspecialidade()
+        );
+    }
 }
