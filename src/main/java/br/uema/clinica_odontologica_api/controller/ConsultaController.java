@@ -3,6 +3,7 @@ package br.uema.clinica_odontologica_api.controller;
 import br.uema.clinica_odontologica_api.dto.ConsultaDTO;
 import br.uema.clinica_odontologica_api.entity.Consulta;
 import br.uema.clinica_odontologica_api.service.ConsultaService;
+import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +61,7 @@ public class ConsultaController {
         );
     }
 
-    //ENDPOIT DA ARRECADAÇÃO POR DENTISTA
+    //ENDPOIT ARRECADAÇÃO POR DENTISTA
     @GetMapping("/relatorios/arrecadacao")
     public ResponseEntity<List<Object[]>> arrecadaoPorDentista(){
         return ResponseEntity.ok(
@@ -68,10 +69,19 @@ public class ConsultaController {
         );
     }
 
+    //ENDPOINT DOS DENTISTAS COM MAIS CONSULTAS
     @GetMapping("/relatorios/racking")
     public ResponseEntity<List<Object[]>> rackingDentista(){
         return ResponseEntity.ok(
                 service.rackingDentista()
+        );
+    }
+
+    //ENDPOINT DE PACIENTES SEM CONSULTAS
+    @GetMapping("/relatorios/sem-consultas")
+    public  ResponseEntity<List<Object[]>> pacientesSemConsulta(){
+        return ResponseEntity.ok(
+                service.pacientesSemConsulta()
         );
     }
 }

@@ -9,6 +9,8 @@ import java.util.List;
 
 @Repository
 public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
+
+    //relatório das consultas
     @Query(value = """
         SELECT p.nome AS paciente,
                d.nome AS dentista,
@@ -24,6 +26,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
     """, nativeQuery = true)
     List<Object[]> historicoConsultas();
 
+    //arrecadação por dentista
     @Query(value = """
     SELECT d.nome,
            SUM(p.valor) AS total_arrecadado
@@ -34,7 +37,7 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
     """, nativeQuery = true)
     List<Object[]> arrecadacaoPorDentista();
 
-
+    //dentistas com o maior número de consultas
     @Query(value = """
     SELECT d.nome,
            COUNT(c.id_consulta) AS total_consultas
@@ -44,4 +47,20 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
     ORDER BY total_consultas DESC
     """, nativeQuery = true)
     List<Object[]> rankingDentistas();
+
+    //Pacientes sem consultas
+    @Query(value = """
+    SELECT p.nome
+    FROM PACIENTE p
+    WHERE NOT EXISTS (
+        SELECT 1
+        FROM CONSULTA c
+        WHERE c.id_paciente = p.id_paciente
+    )
+    """, nativeQuery = true)
+    List<Object[]> pacientesSemConsulta();
+
+
+
+
 }

@@ -113,4 +113,8 @@ public class ConsultaService {
         return repository.rankingDentistas();
     }
 
+    public List<Object[]> pacientesSemConsulta(){
+        return repository.pacientesSemConsulta();
+    }
+
 }
