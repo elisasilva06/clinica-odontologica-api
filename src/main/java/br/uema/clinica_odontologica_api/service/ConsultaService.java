@@ -3,6 +3,7 @@ package br.uema.clinica_odontologica_api.service;
 import br.uema.clinica_odontologica_api.dto.ConsultaDTO;
 import br.uema.clinica_odontologica_api.entity.Consulta;
 import br.uema.clinica_odontologica_api.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import br.uema.clinica_odontologica_api.repository.ConsultaRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,8 @@ import java.util.List;
 @Service
 public class ConsultaService {
 
+    @Autowired
+    private ConsultaRepository consultaRepository;
     private final ConsultaRepository repository;
 
     public ConsultaService(ConsultaRepository repository) {
@@ -94,5 +97,9 @@ public class ConsultaService {
         );
 
         return dto;
+    }
+
+    public List<Object[]> historicoConsultas() {
+        return consultaRepository.historicoConsultas();
     }
 }

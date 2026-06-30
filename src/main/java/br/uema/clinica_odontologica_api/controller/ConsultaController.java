@@ -3,6 +3,8 @@ package br.uema.clinica_odontologica_api.controller;
 import br.uema.clinica_odontologica_api.dto.ConsultaDTO;
 import br.uema.clinica_odontologica_api.entity.Consulta;
 import br.uema.clinica_odontologica_api.service.ConsultaService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -10,6 +12,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/consultas")
 public class ConsultaController {
+
+    @Autowired
+    private ConsultaService consultaService;
 
     private final ConsultaService service;
 
@@ -46,5 +51,14 @@ public class ConsultaController {
     @DeleteMapping("/{id}")
     public void excluir(@PathVariable Integer id) {
         service.excluir(id);
+    }
+
+
+    // ENDPOINT DO RELATÓRIO
+    @GetMapping("/relatorios/historico")
+    public ResponseEntity<List<Object[]>> historicoConsultas() {
+        return ResponseEntity.ok(
+                consultaService.historicoConsultas()
+        );
     }
 }
