@@ -14,8 +14,6 @@ import java.util.List;
 public class ConsultaController {
 
     @Autowired
-    private ConsultaService consultaService;
-
     private final ConsultaService service;
 
     public ConsultaController(ConsultaService service) {
@@ -54,11 +52,11 @@ public class ConsultaController {
     }
 
 
-    // ENDPOINT DO RELATÓRIO
+    // ENDPOINT DO RELATÓRIO (primeira consulta)
     @GetMapping("/relatorios/historico")
     public ResponseEntity<List<Object[]>> historicoConsultas() {
         return ResponseEntity.ok(
-                consultaService.historicoConsultas()
+                service.historicoConsultas()
         );
     }
 }

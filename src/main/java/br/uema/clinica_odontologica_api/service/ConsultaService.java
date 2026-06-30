@@ -13,7 +13,7 @@ import java.util.List;
 public class ConsultaService {
 
     @Autowired
-    private ConsultaRepository consultaRepository;
+    private final ConsultaRepository consultaRepository;
     private final ConsultaRepository repository;
 
     public ConsultaService(ConsultaRepository repository) {
@@ -99,6 +99,7 @@ public class ConsultaService {
         return dto;
     }
 
+    //primeira consulta (nível básico)
     public List<Object[]> historicoConsultas() {
         return consultaRepository.historicoConsultas();
     }
