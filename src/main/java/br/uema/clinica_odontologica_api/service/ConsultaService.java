@@ -103,7 +103,14 @@ public class ConsultaService {
         return repository.historicoConsultas();
     }
 
+    //segunda consulta
     public List<Object[]> arrecadacaoPorDentista(){
         return repository.arrecadacaoPorDentista();
     }
+
+    //primeira consulta (nível intermediário)
+    public List<Object[]> rackingDentista(){
+        return repository.rankingDentistas();
+    }
+
 }

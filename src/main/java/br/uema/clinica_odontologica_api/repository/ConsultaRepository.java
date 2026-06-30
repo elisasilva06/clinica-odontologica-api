@@ -33,4 +33,15 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
     GROUP BY d.nome
     """, nativeQuery = true)
     List<Object[]> arrecadacaoPorDentista();
+
+
+    @Query(value = """
+    SELECT d.nome,
+           COUNT(c.id_consulta) AS total_consultas
+    FROM CONSULTA c
+    JOIN DENTISTA d ON c.id_dentista = d.id_dentista
+    GROUP BY d.nome
+    ORDER BY total_consultas DESC
+    """, nativeQuery = true)
+    List<Object[]> rankingDentistas();
 }

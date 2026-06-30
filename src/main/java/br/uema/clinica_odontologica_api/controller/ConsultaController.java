@@ -67,4 +67,11 @@ public class ConsultaController {
                 service.arrecadacaoPorDentista()
         );
     }
+
+    @GetMapping("/relatorios/racking")
+    public ResponseEntity<List<Object[]>> rackingDentista(){
+        return ResponseEntity.ok(
+                service.rackingDentista()
+        );
+    }
 }
