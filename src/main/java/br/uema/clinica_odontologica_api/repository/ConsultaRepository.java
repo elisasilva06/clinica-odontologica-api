@@ -82,6 +82,17 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
     List<Object[]> top3DentistasPorEspecialidade();
 
 
+    //evolucao temporal financeira
+    @Query(value = """
+    SELECT 
+        data_pagamento,
+        valor,
+        LAG(valor) OVER (ORDER BY data_pagamento) AS valor_anterior,
+        valor - LAG(valor) OVER (ORDER BY data_pagamento) AS diferenca
+    FROM PAGAMENTO
+     """, nativeQuery = true)
+    List<Object[]> evolucaoFinanceira();
+
 
 
 }

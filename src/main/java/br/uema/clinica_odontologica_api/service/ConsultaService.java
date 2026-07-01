@@ -117,8 +117,13 @@ public class ConsultaService {
         return repository.pacientesSemConsulta();
     }
 
+    //primeira consulta (nível avançado)
     public List<Object[]> top3DentistasPorEspecialidade(){
         return repository.top3DentistasPorEspecialidade();
+    }
+
+    public List<Object[]> evolucaoFinanceira(){
+        return repository.evolucaoFinanceira();
     }
 
 }

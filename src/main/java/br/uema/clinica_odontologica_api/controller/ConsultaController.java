@@ -92,4 +92,13 @@ public class ConsultaController {
                 service.top3DentistasPorEspecialidade()
         );
     }
+
+    //ENDPOINT EVOLUÇÃO FINANCEIRA DA CLÍNICA
+    @GetMapping("/relatorios/evolucao-financeira")
+    public ResponseEntity<List<Object[]>> evolucaoFinanceira(){
+        return ResponseEntity.ok(
+                service.evolucaoFinanceira()
+        );
+    }
+
 }
