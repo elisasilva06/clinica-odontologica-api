@@ -3,6 +3,7 @@ package br.uema.clinica_odontologica_api.controller;
 import br.uema.clinica_odontologica_api.dto.PagamentoDTO;
 import br.uema.clinica_odontologica_api.entity.Pagamento;
 import br.uema.clinica_odontologica_api.service.PagamentoService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,13 +29,13 @@ public class PagamentoController {
     }
 
     @PostMapping
-    public Pagamento salvar(@RequestBody Pagamento pagamento) {
+    public Pagamento salvar(@Valid @RequestBody Pagamento pagamento) {
         return service.salvar(pagamento);
     }
 
     @PutMapping("/{id}")
     public Pagamento atualizar(@PathVariable Integer id,
-                               @RequestBody Pagamento pagamento) {
+                               @Valid @RequestBody Pagamento pagamento) {
         return service.atualizar(id, pagamento);
     }
 

@@ -3,6 +3,7 @@ package br.uema.clinica_odontologica_api.controller;
 import br.uema.clinica_odontologica_api.dto.PacienteDTO;
 import br.uema.clinica_odontologica_api.entity.Paciente;
 import br.uema.clinica_odontologica_api.service.PacienteService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,13 +31,13 @@ public class PacienteController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Paciente salvar(@RequestBody Paciente paciente) {
+    public Paciente salvar(@Valid @RequestBody Paciente paciente) {
         return service.salvar(paciente);
     }
 
     @PutMapping("/{id}")
     public Paciente atualizar(@PathVariable Integer id,
-                              @RequestBody Paciente paciente) {
+                              @Valid @RequestBody Paciente paciente) {
         return service.atualizar(id, paciente);
     }
 
