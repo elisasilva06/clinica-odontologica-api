@@ -126,4 +126,8 @@ public class ConsultaService {
         return repository.evolucaoFinanceira();
     }
 
+    public List<Object[]> dentistasAcimaDaMedia(){
+        return repository.dentistasAcimaDaMedia();
+    }
+
 }

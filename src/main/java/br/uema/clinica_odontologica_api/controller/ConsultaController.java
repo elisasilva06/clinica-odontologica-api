@@ -101,4 +101,12 @@ public class ConsultaController {
         );
     }
 
+    //ENDPOINT DENTISTAS A CIMA DA MÉDIA
+    @GetMapping("/relatorios/dentistas-acima-media")
+    public ResponseEntity<List<Object[]>> dentistasAcimaDaMedia(){
+        return ResponseEntity.ok(
+                service.dentistasAcimaDaMedia()
+        );
+    }
+
 }

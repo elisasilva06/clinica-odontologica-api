@@ -94,5 +94,29 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Integer> {
     List<Object[]> evolucaoFinanceira();
 
 
+    //dentistas acima da média
+    @Query(value = """
+    WITH total_consultas AS (
+        SELECT 
+            d.id_dentista,
+            d.nome,
+            COUNT(c.id_consulta) AS total
+        FROM CONSULTA c
+        JOIN DENTISTA d ON c.id_dentista = d.id_dentista
+        GROUP BY d.id_dentista
+    ),
+    media_consultas AS (
+        SELECT AVG(total) AS media_geral
+        FROM total_consultas
+    )
+    SELECT 
+        tc.nome,
+        tc.total,
+        mc.media_geral
+    FROM total_consultas tc
+    CROSS JOIN media_consultas mc
+    WHERE tc.total > mc.media_geral
+""", nativeQuery = true)
+    List<Object[]> dentistasAcimaDaMedia();
 
 }
