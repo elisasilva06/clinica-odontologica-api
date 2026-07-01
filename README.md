@@ -89,7 +89,7 @@ Cada uma expõe um CRUD completo (`GET`, `GET /{id}`, `POST`, `PUT`, `DELETE`).
 
 ---
 
-## Diferenciail implementado
+## Diferenciais implementados
 
 ### 1. Swagger / OpenAPI
 
@@ -100,6 +100,33 @@ Documentação interativa de todos os endpoints, gerada automaticamente.
 
 > Foi usada a versão **springdoc-openapi 3.0.3**, a única linha compatível
 > com Spring Boot 4.x.
+
+### 2. Bean Validation
+
+Validação automática dos dados de entrada nas requisições `POST`/`PUT`,
+usando anotações do Jakarta Bean Validation (`@NotBlank`, `@NotNull`,
+`@Email`, `@Positive`, `@Past`, `@Pattern`, `@Size` e `@CPF`).
+
+Quando os dados são inválidos, a API retorna **HTTP 400** com a lista de
+campos e mensagens. Exemplo:
+
+```bash
+curl -X POST http://localhost:8080/pacientes \
+     -H "Content-Type: application/json" \
+     -d "{}"
+```
+
+```json
+{
+  "timestamp": "2026-06-30T10:00:00",
+  "status": 400,
+  "error": "Bad Request",
+  "message": "nome: O nome é obrigatório; cpf: O CPF é obrigatório; ..."
+}
+```
+
+> O campo CPF usa `@CPF` (Hibernate Validator), que valida o dígito
+> verificador — utilize um CPF válido nos testes.
 
 
 ## Tratamento de erros
