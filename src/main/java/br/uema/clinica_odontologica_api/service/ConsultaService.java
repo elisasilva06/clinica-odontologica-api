@@ -3,6 +3,7 @@ package br.uema.clinica_odontologica_api.service;
 import br.uema.clinica_odontologica_api.dto.ConsultaDTO;
 import br.uema.clinica_odontologica_api.entity.Consulta;
 import br.uema.clinica_odontologica_api.exception.ResourceNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
 import br.uema.clinica_odontologica_api.repository.ConsultaRepository;
 import org.springframework.stereotype.Service;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Service
 public class ConsultaService {
 
+    @Autowired
     private final ConsultaRepository repository;
 
     public ConsultaService(ConsultaRepository repository) {
@@ -95,4 +97,37 @@ public class ConsultaService {
 
         return dto;
     }
+
+    //primeira consulta (nível básico)
+    public List<Object[]> historicoConsultas() {
+        return repository.historicoConsultas();
+    }
+
+    //segunda consulta
+    public List<Object[]> arrecadacaoPorDentista(){
+        return repository.arrecadacaoPorDentista();
+    }
+
+    //primeira consulta (nível intermediário)
+    public List<Object[]> rackingDentista(){
+        return repository.rankingDentistas();
+    }
+
+    public List<Object[]> pacientesSemConsulta(){
+        return repository.pacientesSemConsulta();
+    }
+
+    //primeira consulta (nível avançado)
+    public List<Object[]> top3DentistasPorEspecialidade(){
+        return repository.top3DentistasPorEspecialidade();
+    }
+
+    public List<Object[]> evolucaoFinanceira(){
+        return repository.evolucaoFinanceira();
+    }
+
+    public List<Object[]> dentistasAcimaDaMedia(){
+        return repository.dentistasAcimaDaMedia();
+    }
+
 }
