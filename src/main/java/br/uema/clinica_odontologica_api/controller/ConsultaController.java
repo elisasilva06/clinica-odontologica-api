@@ -4,6 +4,7 @@ import br.uema.clinica_odontologica_api.dto.ConsultaDTO;
 import br.uema.clinica_odontologica_api.entity.Consulta;
 import br.uema.clinica_odontologica_api.service.ConsultaService;
 import lombok.Getter;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -35,14 +36,14 @@ public class ConsultaController {
 
     // SALVAR
     @PostMapping
-    public Consulta salvar(@RequestBody Consulta consulta) {
+    public Consulta salvar(@Valid @RequestBody Consulta consulta) {
         return service.salvar(consulta);
     }
 
     // ATUALIZAR
     @PutMapping("/{id}")
     public Consulta atualizar(@PathVariable Integer id,
-                              @RequestBody Consulta consulta) {
+                          @Valid @RequestBody Consulta consulta) {
         return service.atualizar(id, consulta);
     }
 

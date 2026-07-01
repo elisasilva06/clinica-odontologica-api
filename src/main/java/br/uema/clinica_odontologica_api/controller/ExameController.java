@@ -3,6 +3,7 @@ package br.uema.clinica_odontologica_api.controller;
 import br.uema.clinica_odontologica_api.dto.ExameDTO;
 import br.uema.clinica_odontologica_api.entity.Exame;
 import br.uema.clinica_odontologica_api.service.ExameService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,13 +29,13 @@ public class ExameController {
     }
 
     @PostMapping
-    public Exame salvar(@RequestBody Exame exame) {
+    public Exame salvar(@Valid @RequestBody Exame exame) {
         return service.salvar(exame);
     }
 
     @PutMapping("/{id}")
     public Exame atualizar(@PathVariable Integer id,
-                           @RequestBody Exame exame) {
+                           @Valid @RequestBody Exame exame) {
         return service.atualizar(id, exame);
     }
 

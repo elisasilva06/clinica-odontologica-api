@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,6 +25,8 @@ public class Especialidade {
     @Column(name = "id_especialidade")
     private Integer id;
 
+    @NotBlank(message = "O nome da especialidade é obrigatório")
+    @Size(max = 100, message = "O nome deve ter no máximo 100 caracteres")
     @Column(name = "nome_especialidade", nullable = false, unique = true, length = 100)
     private String nomeEspecialidade;
 
