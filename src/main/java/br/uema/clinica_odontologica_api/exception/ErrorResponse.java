@@ -14,7 +14,6 @@ public class ErrorResponse {
     private String message;
     private Map<String, String> errors;
 
-    // Construtor antigo (usado pelo 404 e 500)
     public ErrorResponse(
             LocalDateTime timestamp,
             Integer status,
@@ -27,7 +26,6 @@ public class ErrorResponse {
         this.message = message;
     }
 
-    // Construtor novo (usado pelo 400, com os erros por campo)
     public ErrorResponse(
             LocalDateTime timestamp,
             Integer status,
